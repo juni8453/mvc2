@@ -11,14 +11,18 @@ public class ItemValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
+        // 검증할 클래스.isAssignableFrom(clazz);
         return Item.class.isAssignableFrom(clazz);
     }
 
     @Override
+    // 컨트롤러에서 target 은 item, errors 는 bindingResult 가 넘어올 것이다.
     public void validate(Object target, Errors errors) {
+        // target 을 검증할 클래스 타입으로 캐스팅해준다.
         Item item = (Item) target;
 
         if (!StringUtils.hasText(item.getItemName())) {
+            // errors 는 bindingResult 의 부모라서 rejectValue() 가 있다.
             errors.rejectValue("itemName", "required");
         }
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
